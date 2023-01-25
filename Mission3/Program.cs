@@ -2,56 +2,72 @@
 
 namespace Mission3
 {
-    class Driver
+    class Program
     {
-        int[] boardArray = { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
-        int playerNum = 1;
-        int choice;
-        int winner; // while winner = 0, the game will continue to play. 1 means there's a winner. -1 is a draw.
-
+        
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello!");
+            string[] boardArray = {"0","1","2", "3", "4", "5", "6", "7", "8", "9"};
+            int playerNum = 1;
+           
+            int turn = 0;
+            string message = ""; // while winner = 0, the game will continue to play. 1 means there's a winner. -1 is a draw.
 
-            Support.PrintBoard(boardArray);
+            Console.WriteLine("Hello! Welcome to our Tic-Tac-Toe Game!");
+
+            Support newSupport = new Support();
+            newSupport.PrintBoard(boardArray);
 
             do
             {
                 while (playerNum == 1) 
                 {
-                    Console.WriteLine("Player 1, Enter a number between 1 and 9");
-                    choice = Console.ReadLine();
-                    if (boardArray[choice + 1] == choice + 1)
+                    Console.WriteLine("Player 1, Enter a number between 0 and 8");
+                    int playerchoice = Convert.ToInt32(Console.ReadLine());
+
+                    if (Convert.ToInt32(boardArray[playerchoice]) == playerchoice)
                     {
-                        boardArray[choice + 1] = 'X';
+                        boardArray[playerchoice] = "X";
                         playerNum = 2;
+                        turn++;
+                        message = newSupport.DetermineWinner(boardArray, turn);
                     }
                     else
                     {
                         Console.WriteLine("That spot is already taken. Please choose another number");
                     }
-                    Support.PrintBoard(boardArray);
+                    Console.Clear();
+                    newSupport.PrintBoard(boardArray);
                 }
                 
+                if (message == "X's are the winner!" || message == "It was a Tie!")
+                {
+                    break;
+                }
                 while (playerNum == 2)
                 {
-                    Console.WriteLine("Player 2, Enter a number between 1 and 9");
-                    choice = Console.ReadLine();
-                    if (boardArray[choice + 1] == choice + 1)
+                    Console.WriteLine("Player 2, Enter a number between 0 and 8");
+                    int playerchoice = Convert.ToInt32(Console.ReadLine());
+                    if (Convert.ToInt32(boardArray[playerchoice]) == playerchoice)
                     {
-                        boardArray[choice + 1] = 'O';
+                        boardArray[playerchoice] = "O";
                         playerNum = 1;
+                        turn++;
+                        message = newSupport.DetermineWinner(boardArray, turn);
+
                     }
                     else
                     {
                         Console.WriteLine("That spot is already taken. Please choose another number");
                     }
-                    Support.PrintBoard(boardArray);
+                    Console.Clear();
+                    newSupport.PrintBoard(boardArray);
                 }
+                
             }
-            while (winner != 1 && winner != -1) ;
-            Support.PrintBoard(boardArray);
-            Support.DetermineWinner(boardArray);
+            while (message == "") ;
+            Console.WriteLine(message);
+            newSupport.PrintBoard(boardArray);
         }
     }
 }

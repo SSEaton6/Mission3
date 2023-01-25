@@ -21,7 +21,7 @@ namespace Mission3
             Console.WriteLine("     |     |     ");
         }
 
-        public string DetermineWinner (string[] board)
+        public string DetermineWinner (string[] board, int turn)
         {
             bool win = false;
             int checker = 0;
@@ -80,11 +80,16 @@ namespace Mission3
                 {
                     winner = "X's are the winner!";
                 }
-                else
+                else if (board[checker] == "O" || board[checker] == "o")
                 {
                     winner = "O's are the winner!";
-                }
+                } 
             }
+            if (turn == 9)
+            {
+                winner = "It was a Tie!";
+            }
+            
 
             return winner;
         }
